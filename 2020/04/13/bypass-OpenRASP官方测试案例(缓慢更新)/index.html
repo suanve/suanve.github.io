@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>bypass-OpenRASP官方测试案例(缓慢更新) | suanve - Blog</title>
+  <meta name="description" content="bypass-OpenRASP官方测试案例本文用来记录OpenRASP官方测试样例的绕过 001 - 列目录操作 - scandir 方式 http:&#x2F;&#x2F;localhost&#x2F;001-dir.php?dir&#x3D;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc 官方例子被拦截 简单测试发现只要出现..就会被拦截所以绝对路径绕过 http:&#x2F;&#x2F;localhost&#x2F;001-dir.p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bypass-OpenRASP官方测试案例(缓慢更新)">
+<meta property="og:url" content="http://yoursite.com/2020/04/13/bypass-OpenRASP%E5%AE%98%E6%96%B9%E6%B5%8B%E8%AF%95%E6%A1%88%E4%BE%8B(%E7%BC%93%E6%85%A2%E6%9B%B4%E6%96%B0)/index.html">
+<meta property="og:site_name" content="suanve - Blog">
+<meta property="og:description" content="bypass-OpenRASP官方测试案例本文用来记录OpenRASP官方测试样例的绕过 001 - 列目录操作 - scandir 方式 http:&#x2F;&#x2F;localhost&#x2F;001-dir.php?dir&#x3D;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc 官方例子被拦截 简单测试发现只要出现..就会被拦截所以绝对路径绕过 http:&#x2F;&#x2F;localhost&#x2F;001-dir.p">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2020/04/666090762.png">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2020/04/1286331636.png">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2020/04/2424840781.png">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2020/04/2515817580.png">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2020/04/1286331636.png">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2020/04/3697807954.png">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2020/04/955563927.png">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2020/04/1286331636.png">
+<meta property="article:published_time" content="2020-04-12T23:12:00.000Z">
+<meta property="article:modified_time" content="2020-07-09T15:05:04.932Z">
+<meta property="article:author" content="suanve">
+<meta property="article:tag" content="openrasp">
+<meta property="article:tag" content="bypass">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiaokou.top/usr/uploads/2020/04/666090762.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2020/04/13/bypass-OpenRASP%E5%AE%98%E6%96%B9%E6%B5%8B%E8%AF%95%E6%A1%88%E4%BE%8B(%E7%BC%93%E6%85%A2%E6%9B%B4%E6%96%B0)/index.html">
+  
+    <link rel="alternate" href="/rss.xml" title="suanve - Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">suanve</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">日不了站的web狗</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hefei, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/suanve" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/suanve" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/rss.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                此博主是个萌新<br> 希望能多交几个朋友
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/bypass/">bypass</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/golang/">golang</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pwn/">pwn</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reverse/">reverse</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%BA%BF/">基线</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%89%E5%85%A8/">安全</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/">默认分类</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2017-12615/" rel="tag">CVE-2017-12615</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-17564/" rel="tag">CVE-2019-17564</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dubbo/" rel="tag">Dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/" rel="tag">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/autopackage/" rel="tag">autopackage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awd/" rel="tag">awd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/burp/" rel="tag">burp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bypass/" rel="tag">bypass</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/" rel="tag">ctf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c%E6%AE%B5%E6%89%AB%E6%8F%8F/" rel="tag">c段扫描</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-compose/" rel="tag">docker-compose</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/firefox/" rel="tag">firefox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/" rel="tag">golang</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http%E6%9C%8D%E5%8A%A1%E6%89%AB%E6%8F%8F/" rel="tag">http服务扫描</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jasec/" rel="tag">jasec</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%BB%E5%8F%96/" rel="tag">mysql客户端读取</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openrasp/" rel="tag">openrasp</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php%E5%AE%A1%E8%AE%A1/" rel="tag">php审计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/" rel="tag">pwn</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwnable-xyz/" rel="tag">pwnable.xyz</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rasp/" rel="tag">rasp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rce/" rel="tag">rce</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/recode/" rel="tag">recode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rop/" rel="tag">rop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/seay%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" rel="tag">seay代码审计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/simplecheck/" rel="tag">simplecheck</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sirl/" rel="tag">sirl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssrf/" rel="tag">ssrf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/" rel="tag">tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" rel="tag">代码审计</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">反序列化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" rel="tag">命令执行</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%BA%8A/" rel="tag">图床</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8%E5%9F%BA%E7%BA%BF/" rel="tag">安全基线</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8%E7%8B%97/" rel="tag">安全狗</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%93%E5%8D%A1/" rel="tag">打卡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%AB%E6%8F%8F%E5%99%A8/" rel="tag">扫描器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag">插件开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%81%E8%B7%AF%E7%94%B1/" rel="tag">极路由</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%A8%E5%85%A5/" rel="tag">注入</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" rel="tag">漏洞复现</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%86%E7%A0%B4/" rel="tag">爆破</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/CVE-2017-12615/" style="font-size: 13px;">CVE-2017-12615</a> <a href="/tags/CVE-2019-17564/" style="font-size: 13px;">CVE-2019-17564</a> <a href="/tags/Dubbo/" style="font-size: 13px;">Dubbo</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 13px;">SQL注入</a> <a href="/tags/android/" style="font-size: 13px;">android</a> <a href="/tags/autopackage/" style="font-size: 13px;">autopackage</a> <a href="/tags/awd/" style="font-size: 13px;">awd</a> <a href="/tags/burp/" style="font-size: 13.67px;">burp</a> <a href="/tags/bypass/" style="font-size: 13.33px;">bypass</a> <a href="/tags/ctf/" style="font-size: 13px;">ctf</a> <a href="/tags/c%E6%AE%B5%E6%89%AB%E6%8F%8F/" style="font-size: 13px;">c段扫描</a> <a href="/tags/docker/" style="font-size: 13px;">docker</a> <a href="/tags/docker-compose/" style="font-size: 13px;">docker-compose</a> <a href="/tags/firefox/" style="font-size: 13px;">firefox</a> <a href="/tags/go/" style="font-size: 13px;">go</a> <a href="/tags/golang/" style="font-size: 13.33px;">golang</a> <a href="/tags/http%E6%9C%8D%E5%8A%A1%E6%89%AB%E6%8F%8F/" style="font-size: 13px;">http服务扫描</a> <a href="/tags/jasec/" style="font-size: 13px;">jasec</a> <a href="/tags/java/" style="font-size: 13px;">java</a> <a href="/tags/mysql/" style="font-size: 13px;">mysql</a> <a href="/tags/mysql%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%BB%E5%8F%96/" style="font-size: 13px;">mysql客户端读取</a> <a href="/tags/openrasp/" style="font-size: 13.33px;">openrasp</a> <a href="/tags/openwrt/" style="font-size: 13px;">openwrt</a> <a href="/tags/php/" style="font-size: 13px;">php</a> <a href="/tags/php%E5%AE%A1%E8%AE%A1/" style="font-size: 13px;">php审计</a> <a href="/tags/pwn/" style="font-size: 13.67px;">pwn</a> <a href="/tags/pwnable-xyz/" style="font-size: 13px;">pwnable.xyz</a> <a href="/tags/python/" style="font-size: 14px;">python</a> <a href="/tags/rasp/" style="font-size: 13px;">rasp</a> <a href="/tags/rce/" style="font-size: 13px;">rce</a> <a href="/tags/recode/" style="font-size: 13px;">recode</a> <a href="/tags/redis/" style="font-size: 13px;">redis</a> <a href="/tags/rop/" style="font-size: 13px;">rop</a> <a href="/tags/seay%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" style="font-size: 13px;">seay代码审计</a> <a href="/tags/shell/" style="font-size: 13px;">shell</a> <a href="/tags/simplecheck/" style="font-size: 13px;">simplecheck</a> <a href="/tags/sirl/" style="font-size: 13px;">sirl</a> <a href="/tags/spring-boot/" style="font-size: 13px;">spring boot</a> <a href="/tags/ssrf/" style="font-size: 13px;">ssrf</a> <a href="/tags/tomcat/" style="font-size: 13.33px;">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 13px;">ubuntu</a> <a href="/tags/vue/" style="font-size: 13px;">vue</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" style="font-size: 13.33px;">代码审计</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 13px;">反序列化</a> <a href="/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" style="font-size: 13.33px;">命令执行</a> <a href="/tags/%E5%9B%BE%E5%BA%8A/" style="font-size: 13px;">图床</a> <a href="/tags/%E5%AE%89%E5%85%A8%E5%9F%BA%E7%BA%BF/" style="font-size: 13px;">安全基线</a> <a href="/tags/%E5%AE%89%E5%85%A8%E7%8B%97/" style="font-size: 13px;">安全狗</a> <a href="/tags/%E6%89%93%E5%8D%A1/" style="font-size: 13px;">打卡</a> <a href="/tags/%E6%89%AB%E6%8F%8F%E5%99%A8/" style="font-size: 13px;">扫描器</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" style="font-size: 13px;">插件开发</a> <a href="/tags/%E6%9E%81%E8%B7%AF%E7%94%B1/" style="font-size: 13px;">极路由</a> <a href="/tags/%E6%B3%A8%E5%85%A5/" style="font-size: 13px;">注入</a> <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" style="font-size: 13.33px;">漏洞复现</a> <a href="/tags/%E7%88%86%E7%A0%B4/" style="font-size: 13px;">爆破</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/golang/">golang</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/06/22/%E4%BD%BF%E7%94%A8golang%E8%87%AA%E5%BB%BA%E5%9B%BE%E5%BA%8A%E5%B9%B6%E4%B8%8Etypora%E8%81%94%E5%8A%A8/" class="title">使用golang自建图床并与typora联动</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-21T23:20:00.000Z" itemprop="datePublished">2020-06-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/06/22/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-spring-boot-/" class="title">漏洞复现-spring boot</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-21T22:42:00.000Z" itemprop="datePublished">2020-06-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/python/">python</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/06/17/python%E5%AE%9E%E7%8E%B0%E6%AF%8F%E6%97%A5%E5%81%A5%E5%BA%B7%E8%87%AA%E5%8A%A8%E6%89%93%E5%8D%A1/" class="title">python实现每日健康自动打卡</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-16T19:30:00.000Z" itemprop="datePublished">2020-06-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/04/20/%E5%85%A8%E6%96%B9%E9%9D%A2%E7%BB%95%E8%BF%87%E5%AE%89%E5%85%A8%E7%8B%97%E6%B3%A8%E5%85%A5/" class="title">全方面绕过安全狗注入</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-19T18:40:00.000Z" itemprop="datePublished">2020-04-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/bypass/">bypass</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/04/13/bypass-OpenRASP%E5%AE%98%E6%96%B9%E6%B5%8B%E8%AF%95%E6%A1%88%E4%BE%8B(%E7%BC%93%E6%85%A2%E6%9B%B4%E6%96%B0)/" class="title">bypass-OpenRASP官方测试案例(缓慢更新)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-12T23:12:00.000Z" itemprop="datePublished">2020-04-13</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-bypass-OpenRASP官方测试案例(缓慢更新)" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      bypass-OpenRASP官方测试案例(缓慢更新)
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/04/13/bypass-OpenRASP%E5%AE%98%E6%96%B9%E6%B5%8B%E8%AF%95%E6%A1%88%E4%BE%8B(%E7%BC%93%E6%85%A2%E6%9B%B4%E6%96%B0)/" class="article-date">
+	  <time datetime="2020-04-12T23:12:00.000Z" itemprop="datePublished">2020-04-13</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/bypass/">bypass</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/bypass/" rel="tag">bypass</a>, <a class="article-tag-link" href="/tags/openrasp/" rel="tag">openrasp</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/04/13/bypass-OpenRASP%E5%AE%98%E6%96%B9%E6%B5%8B%E8%AF%95%E6%A1%88%E4%BE%8B(%E7%BC%93%E6%85%A2%E6%9B%B4%E6%96%B0)/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="bypass-OpenRASP官方测试案例"><a href="#bypass-OpenRASP官方测试案例" class="headerlink" title="bypass-OpenRASP官方测试案例"></a>bypass-OpenRASP官方测试案例</h2><pre><code>本文用来记录OpenRASP官方测试样例的绕过</code></pre><hr>
+<h2 id="001-列目录操作-scandir-方式"><a href="#001-列目录操作-scandir-方式" class="headerlink" title="001 - 列目录操作 - scandir 方式"></a>001 - 列目录操作 - scandir 方式</h2><p><img src="https://xiaokou.top/usr/uploads/2020/04/666090762.png" alt=""></p>
+<p><code>http://localhost/001-dir.php?dir=../../../../../../../../../../../etc</code></p>
+<p>官方例子被拦截<br><img src="https://xiaokou.top/usr/uploads/2020/04/1286331636.png" alt=""></p>
+<p>简单测试发现只要出现..就会被拦截<br>所以绝对路径绕过</p>
+<p><code>http://localhost/001-dir.php?dir=/var/www/html</code><br><img src="https://xiaokou.top/usr/uploads/2020/04/2424840781.png" alt=""></p>
+<hr>
+<h2 id="002-任意文件读取-file-get-contents"><a href="#002-任意文件读取-file-get-contents" class="headerlink" title="002 - 任意文件读取 - file_get_contents"></a>002 - 任意文件读取 - file_get_contents</h2><p><img src="https://xiaokou.top/usr/uploads/2020/04/2515817580.png" alt=""><br><code>curl -g &#39;http://localhost/002-file-read.php?file=/etc/hosts&#39;</code><br>官方例子被拦截<br><img src="https://xiaokou.top/usr/uploads/2020/04/1286331636.png" alt=""></p>
+<p>绝对路径加上相对路径绕过<br><code>http://localhost/002-file-read.php?file=/./etc/hosts</code><br><img src="https://xiaokou.top/usr/uploads/2020/04/3697807954.png" alt=""></p>
+<hr>
+<h2 id="004-命令执行-exec-方式，无回显"><a href="#004-命令执行-exec-方式，无回显" class="headerlink" title="004 - 命令执行 - exec 方式，无回显"></a>004 - 命令执行 - exec 方式，无回显</h2><p><img src="https://xiaokou.top/usr/uploads/2020/04/955563927.png" alt=""></p>
+<p><code>curl -g &#39;http://localhost/004-command-1.php?cmd=cp+/etc/passwd+/tmp/&#39;</code></p>
+<p>官方例子被拦截</p>
+<p><img src="https://xiaokou.top/usr/uploads/2020/04/1286331636.png" alt=""></p>
+<p>缓慢更新。。。。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2020/04/13/bypass-OpenRASP%E5%AE%98%E6%96%B9%E6%B5%8B%E8%AF%95%E6%A1%88%E4%BE%8B(%E7%BC%93%E6%85%A2%E6%9B%B4%E6%96%B0)/" title="bypass-OpenRASP官方测试案例(缓慢更新)" target="_blank" rel="external">http://yoursite.com/2020/04/13/bypass-OpenRASP%E5%AE%98%E6%96%B9%E6%B5%8B%E8%AF%95%E6%A1%88%E4%BE%8B(%E7%BC%93%E6%85%A2%E6%9B%B4%E6%96%B0)/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">suanve</span><small class="ml-1x">日不了站的web狗</small></a></h3>
+        <div></div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/04/20/%E5%85%A8%E6%96%B9%E9%9D%A2%E7%BB%95%E8%BF%87%E5%AE%89%E5%85%A8%E7%8B%97%E6%B3%A8%E5%85%A5/" title="全方面绕过安全狗注入"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/04/13/OpenRASP%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="OpenRASP环境搭建"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/suanve" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/suanve" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/rss.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
