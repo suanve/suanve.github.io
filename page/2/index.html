@@ -266,7 +266,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-28 12:12:50" itemprop="dateModified" datetime="2020-07-28T12:12:50+08:00">2020-07-28</time>
+                <time title="Modified: 2020-07-28 12:20:27" itemprop="dateModified" datetime="2020-07-28T12:20:27+08:00">2020-07-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -289,15 +289,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>最近在代码审计，因为pd虚拟机总是会自动扩展屏幕（工作环境双屏）很让人烦躁，所以就冒出了编写一个跨平台代码审计工具的想法。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/11/shi-yong-python-bian-xie-php-dai-ma-shen-ji-gong-ju/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <a id="more"></a>
+<p>最近在代码审计，因为pd虚拟机总是会自动扩展屏幕（工作环境双屏）很让人烦躁，所以就冒出了编写一个跨平台代码审计工具的想法。</p>
+<p>首先介绍一下日常的环境。<br>    1. pd -&gt; WIndows10 虚拟机<br>    2. Windows10 -&gt; phpstorm + phpstudy<br>    3. Macos -&gt; vscode + docker<br>    4.seay代码审计工具</p>
+<p>不得不说seay工具是非常好用,拿来用一下。<br><del>此处夸一夸</del><br><img src="https://xiaokou.top/usr/uploads/2019/12/2580492149.png" alt=""><br>关于seay的使用就不再阐述，这里我们只要看一下seay的实现。<br><img src="https://xiaokou.top/usr/uploads/2019/12/498995218.png" alt=""><br>在这里可以看到有审计的规则,我们来进行一下简单的构思。<br>    1. 读取我们要进行审计的文件夹内的文件<br>    2. 按行读取文件，使用正则进行匹配，匹配成功输出行号</p>
+<p>很简单，先写代码看一下成果。<br><img src="https://xiaokou.top/usr/uploads/2019/12/376128878.png" alt=""></p>
+<p>我将seay代码审计工具的正则利用起来。<br><img src="https://xiaokou.top/usr/uploads/2019/12/3504633474.png" alt=""></p>
+<p>首先读取文件夹内容<br><img src="https://xiaokou.top/usr/uploads/2019/12/3317575215.png" alt=""><br>然后按行读取文件内容，使用正则进行匹配，如果匹配到就输出文件,行号与匹配到的信息。<br><img src="https://xiaokou.top/usr/uploads/2019/12/163075933.png" alt=""><br>代码：<br><a href="https://github.com/suanve/recode" target="_blank" rel="noopener">https://github.com/suanve/recode</a></p>
+
       
     </div>
 
@@ -681,7 +680,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-28 12:12:15" itemprop="dateModified" datetime="2020-07-28T12:12:15+08:00">2020-07-28</time>
+                <time title="Modified: 2020-07-28 12:19:57" itemprop="dateModified" datetime="2020-07-28T12:19:57+08:00">2020-07-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -704,15 +703,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>做环境的时候遇到一个问题，tomcat多次登陆以后一直报密码错误，无法登陆。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/08/08/an-quan-ji-xian-tomcat-bao-po/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <a id="more"></a>
+<p>做环境的时候遇到一个问题，tomcat多次登陆以后一直报密码错误，无法登陆。<br><img src="https://xiaokou.top/usr/uploads/md/1565246382556.png" alt=""></p>
+<p>群里有一个老哥回复：<br><img src="https://xiaokou.top/usr/uploads/md/1565246405085.png" alt=""><br><img src="https://xiaokou.top/usr/uploads/md/1565246409097.png" alt=""></p>
+<p>看了一下默默的去搜索一下tomcat安全基线，发现如下信息：<br><a href="https://blog.csdn.net/Gary_H/article/details/87372142" target="_blank" rel="noopener" title="tomcat安全基线">点我看tomcat安全基线</a><br><img src="https://xiaokou.top/usr/uploads/md/1565246445257.png" alt=""><br>那就在server.xml里添加<br><img src="https://xiaokou.top/usr/uploads/md/1565246486354.png" alt=""><br>然后可以随意爆破了。<br><img src="https://xiaokou.top/usr/uploads/md/1565246502346.png" alt=""><br><img src="https://xiaokou.top/usr/uploads/md/1565246507549.png" alt=""></p>
+
       
     </div>
 
