@@ -308,7 +308,25 @@
 <p>很简单，先写代码看一下成果。<br><img src="https://xiaokou.top/usr/uploads/2019/12/376128878.png" alt=""></p>
 <p>我将seay代码审计工具的正则利用起来。<br><img src="https://xiaokou.top/usr/uploads/2019/12/3504633474.png" alt=""></p>
 <p>首先读取文件夹内容<br><img src="https://xiaokou.top/usr/uploads/2019/12/3317575215.png" alt=""><br>然后按行读取文件内容，使用正则进行匹配，如果匹配到就输出文件,行号与匹配到的信息。<br><img src="https://xiaokou.top/usr/uploads/2019/12/163075933.png" alt=""><br>代码：<br><a href="https://github.com/suanve/recode" target="_blank" rel="noopener">https://github.com/suanve/recode</a></p>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
     </div>
 
     

