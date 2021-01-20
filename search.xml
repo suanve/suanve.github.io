@@ -4,6 +4,29 @@
   
     
     <entry>
+      <title>linux下使用alias一键保存/恢复docker容器</title>
+      <link href="2021/01/21/linux-xia-shi-yong-alias-yi-jian-bao-cun-hui-fu-docker-rong-qi/"/>
+      <url>2021/01/21/linux-xia-shi-yong-alias-yi-jian-bao-cun-hui-fu-docker-rong-qi/</url>
+      
+        <content type="html"><![CDATA[<p>发现docker运行了几个容器一直在后台存活,天天合盖再打开就没电了.</p><p>随手撸了两个alias命令实现保存当前运行的容器,当然也可以从上次保存的记录中恢复.</p><p>还蛮好用的</p><p><img src="http://124.70.145.45:8081/uploads/941c3937d5cbd36862ee3a108703bdb2" alt="image-20210121000607853"></p><p><img src="http://124.70.145.45:8081/uploads/4ff4886172b76a1a6dd2835a98539e2a" alt="image-20210121000645347"></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> docker </tag>
+            
+            <tag> linux </tag>
+            
+            <tag> alias </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>从bytectf学到的scrapy-redis反序列化漏洞</title>
       <link href="2020/10/30/cong-bytectf-xue-dao-de-scrapy-redis-fan-xu-lie-hua-lou-dong/"/>
       <url>2020/10/30/cong-bytectf-xue-dao-de-scrapy-redis-fan-xu-lie-hua-lou-dong/</url>
