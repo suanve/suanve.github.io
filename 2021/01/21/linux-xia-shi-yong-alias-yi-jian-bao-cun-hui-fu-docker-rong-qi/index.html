@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="发现docker运行了几个容器一直在后台存活,天天合盖再打开就没电了. 随手撸了两个alias命令实现保存当前运行的容器,当然也可以从上次保存的记录中恢复. 还蛮好用的            document.querySelectorAll(&#39;.github-emoji&#39;)           .forEach(el &#x3D;&gt; {             if (!el.dataset.src)">
+    <meta name="description" content="发现docker运行了几个容器一直在后台存活,天天合盖再打开就没电了. 随手撸了两个alias命令实现保存当前运行的容器,当然也可以从上次保存的记录中恢复. 还蛮好用的   附命令，写到你的bash或者zsh配置里就好了~ 12345alias dkstop&#x3D;&#39;echo ZG9ja2VyIHBzIC1xfG5sfHNvcnQgLW5yfGN1dCAtZjIgPiB+Ly5kaztjYXQgfi8">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux下使用alias一键保存&#x2F;恢复docker容器">
 <meta property="og:url" content="https://xiaokou.top/2021/01/21/linux-xia-shi-yong-alias-yi-jian-bao-cun-hui-fu-docker-rong-qi/index.html">
 <meta property="og:site_name" content="suanve - Blog">
-<meta property="og:description" content="发现docker运行了几个容器一直在后台存活,天天合盖再打开就没电了. 随手撸了两个alias命令实现保存当前运行的容器,当然也可以从上次保存的记录中恢复. 还蛮好用的            document.querySelectorAll(&#39;.github-emoji&#39;)           .forEach(el &#x3D;&gt; {             if (!el.dataset.src)">
+<meta property="og:description" content="发现docker运行了几个容器一直在后台存活,天天合盖再打开就没电了. 随手撸了两个alias命令实现保存当前运行的容器,当然也可以从上次保存的记录中恢复. 还蛮好用的   附命令，写到你的bash或者zsh配置里就好了~ 12345alias dkstop&#x3D;&#39;echo ZG9ja2VyIHBzIC1xfG5sfHNvcnQgLW5yfGN1dCAtZjIgPiB+Ly5kaztjYXQgfi8">
 <meta property="og:locale" content="zh">
 <meta property="og:image" content="http://124.70.145.45:8081/uploads/941c3937d5cbd36862ee3a108703bdb2">
 <meta property="og:image" content="http://124.70.145.45:8081/uploads/4ff4886172b76a1a6dd2835a98539e2a">
 <meta property="article:published_time" content="2021-01-20T16:04:41.000Z">
-<meta property="article:modified_time" content="2021-01-20T16:11:16.291Z">
+<meta property="article:modified_time" content="2021-01-20T16:13:29.162Z">
 <meta property="article:author" content="suanve">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="linux">
@@ -166,7 +166,8 @@
 <p>还蛮好用的</p>
 <p><img src="http://124.70.145.45:8081/uploads/941c3937d5cbd36862ee3a108703bdb2" alt="image-20210121000607853"></p>
 <p><img src="http://124.70.145.45:8081/uploads/4ff4886172b76a1a6dd2835a98539e2a" alt="image-20210121000645347"></p>
-<script>
+<p>附命令，写到你的bash或者zsh配置里就好了~</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">alias dkstop='echo ZG9ja2VyIHBzIC1xfG5sfHNvcnQgLW5yfGN1dCAtZjIgPiB+Ly5kaztjYXQgfi8uZGsgfGF3ayAne3ByaW50ICJkb2NrZXIgc3RvcCAiJDF9J3xzaAo=|base64 -D|bash'</span><br><span class="line"># docker ps -q|nl|sort -nr|cut -f2 &gt; ~/.dk;cat ~/.dk |awk '{print "docker stop "$1}'|sh</span><br><span class="line"></span><br><span class="line">alias dkstart='echo Y2F0IH4vLmRrIHxhd2sgJ3twcmludCAiZG9ja2VyIHN0YXJ0ICIkMX0nfHNoCg==|base64 -D|bash'</span><br><span class="line"># cat ~/.dk |awk '{print "docker start "$1}'|sh</span><br></pre></td></tr></tbody></table></figure><script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
             if (!el.dataset.src) { return; }
