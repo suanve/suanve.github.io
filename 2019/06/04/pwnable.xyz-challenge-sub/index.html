@@ -27,17 +27,17 @@
 <meta property="og:site_name" content="suanve - Blog">
 <meta property="og:description" content="保护全开吓我一跳丢进ida看一下">
 <meta property="og:locale" content="zh">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1559665689780.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1559665678102.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1559665996597.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1559666402656.png">
+<meta property="og:image" content="http://yoursite.com/post-images1559665689780.png">
+<meta property="og:image" content="http://yoursite.com/post-images1559665678102.png">
+<meta property="og:image" content="http://yoursite.com/post-images1559665996597.png">
+<meta property="og:image" content="http://yoursite.com/post-images1559666402656.png">
 <meta property="article:published_time" content="2019-06-04T08:27:00.000Z">
-<meta property="article:modified_time" content="2020-07-28T04:26:15.739Z">
+<meta property="article:modified_time" content="2020-09-08T02:07:04.132Z">
 <meta property="article:author" content="suanve">
 <meta property="article:tag" content="pwn">
 <meta property="article:tag" content="pwnable.xyz">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://xiaokou.top/usr/uploads/md/1559665689780.png">
+<meta name="twitter:image" content="http://yoursite.com/post-images1559665689780.png">
 
 <link rel="canonical" href="http://yoursite.com/2019/06/04/pwnable.xyz-challenge-sub/">
 
@@ -271,7 +271,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-28 12:26:15" itemprop="dateModified" datetime="2020-07-28T12:26:15+08:00">2020-07-28</time>
+                <time title="Modified: 2020-09-08 10:07:04" itemprop="dateModified" datetime="2020-09-08T10:07:04+08:00">2020-09-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -296,11 +296,11 @@
       
         <p>保护全开吓我一跳<br>丢进ida看一下</p>
 <a id="more"></a>
-<p><img src="https://xiaokou.top/usr/uploads/md/1559665689780.png" alt=""><br><img src="https://xiaokou.top/usr/uploads/md/1559665678102.png" alt=""></p>
+<p><img src="/post-images1559665689780.png" alt=""><br><img src="/post-images1559665678102.png" alt=""></p>
 <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">__int64 __fastcall main(__int64 a1, char **a2, char **a3)</span><br><span class="line">{</span><br><span class="line">  int v4; // [rsp+0h] [rbp-18h]</span><br><span class="line">  int v5; // [rsp+4h] [rbp-14h]</span><br><span class="line">  unsigned __int64 v6; // [rsp+8h] [rbp-10h]</span><br><span class="line"></span><br><span class="line">  v6 = __readfsqword(0x28u);</span><br><span class="line">  sub_A3E(a1, a2, a3);</span><br><span class="line">  v4 = 0;</span><br><span class="line">  v5 = 0;</span><br><span class="line">  _printf_chk(1LL, "1337 input: ");</span><br><span class="line">  _isoc99_scanf("%u %u", &amp;v4, &amp;v5);</span><br><span class="line">  if ( v4 &lt;= 4918 &amp;&amp; v5 &lt;= 4918 )</span><br><span class="line">  {</span><br><span class="line">    if ( v4 - v5 == 4919 )</span><br><span class="line">      system("cat /flag");</span><br><span class="line">  }</span><br><span class="line">  else</span><br><span class="line">  {</span><br><span class="line">    puts("Sowwy");</span><br><span class="line">  }</span><br><span class="line">  return 0LL;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
 <p>输入两个数 第一个小于等于4918 第二个小于等于4918</p>
-<p>既然这么简单，那就看看汇编,也算是锻炼锻炼。<br><img src="https://xiaokou.top/usr/uploads/md/1559665996597.png" alt=""><br>首先是var_18与1336h进行对比<br>jg 有符号大于则跳转<br>jle 有符号小于等于则跳转<br>看到这里这题就明白了，<strong>有符号</strong> 这个是重点<br>4918 - (-1)=4919<br><img src="https://xiaokou.top/usr/uploads/md/1559666402656.png" alt=""></p>
+<p>既然这么简单，那就看看汇编,也算是锻炼锻炼。<br><img src="/post-images1559665996597.png" alt=""><br>首先是var_18与1336h进行对比<br>jg 有符号大于则跳转<br>jle 有符号小于等于则跳转<br>看到这里这题就明白了，<strong>有符号</strong> 这个是重点<br>4918 - (-1)=4919<br><img src="/post-images1559666402656.png" alt=""></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -392,7 +392,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

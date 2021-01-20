@@ -27,19 +27,19 @@
 <meta property="og:site_name" content="suanve - Blog">
 <meta property="og:description" content="先是今天的主角，极路由。">
 <meta property="og:locale" content="zh">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1569651126274.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1569651204062.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1569651262766.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1569651242403.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1569651287367.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1569652208101.png">
+<meta property="og:image" content="http://yoursite.com/post-images1569651126274.png">
+<meta property="og:image" content="http://yoursite.com/post-images1569651204062.png">
+<meta property="og:image" content="http://yoursite.com/post-images1569651262766.png">
+<meta property="og:image" content="http://yoursite.com/post-images1569651242403.png">
+<meta property="og:image" content="http://yoursite.com/post-images1569651287367.png">
+<meta property="og:image" content="http://yoursite.com/post-images1569652208101.png">
 <meta property="article:published_time" content="2019-09-27T22:10:00.000Z">
-<meta property="article:modified_time" content="2020-07-28T04:24:15.772Z">
+<meta property="article:modified_time" content="2020-09-08T02:07:04.133Z">
 <meta property="article:author" content="suanve">
 <meta property="article:tag" content="openwrt">
 <meta property="article:tag" content="极路由">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://xiaokou.top/usr/uploads/md/1569651126274.png">
+<meta name="twitter:image" content="http://yoursite.com/post-images1569651126274.png">
 
 <link rel="canonical" href="http://yoursite.com/2019/09/28/fan-bian-yi-openwrt-de-lua-wen-jian/">
 
@@ -273,7 +273,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-28 12:24:15" itemprop="dateModified" datetime="2020-07-28T12:24:15+08:00">2020-07-28</time>
+                <time title="Modified: 2020-09-08 10:07:04" itemprop="dateModified" datetime="2020-09-08T10:07:04+08:00">2020-09-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -296,12 +296,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://xiaokou.top/usr/uploads/md/1569651126274.png" alt=""><br>先是今天的主角，极路由。</p>
+        <p><img src="/post-images1569651126274.png" alt=""><br>先是今天的主角，极路由。</p>
 <a id="more"></a>
 <p>获取root权限然后拿到web源码，找到对应文件</p>
-<p><img src="https://xiaokou.top/usr/uploads/md/1569651204062.png" alt=""></p>
-<p><img src="https://xiaokou.top/usr/uploads/md/1569651262766.png" alt=""><br><img src="https://xiaokou.top/usr/uploads/md/1569651242403.png" alt=""></p>
-<p><img src="https://xiaokou.top/usr/uploads/md/1569651287367.png" alt=""><br>确认了是lua 5.1以后，google找到了<a href="http://ju.outofmemory.cn/entry/356320" target="_blank" rel="noopener">文章</a>，根据内容操作发现了一些问题，最后也都解决了，在这里做一个记录。<br>首先</p>
+<p><img src="/post-images1569651204062.png" alt=""></p>
+<p><img src="/post-images1569651262766.png" alt=""><br><img src="/post-images1569651242403.png" alt=""></p>
+<p><img src="/post-images1569651287367.png" alt=""><br>确认了是lua 5.1以后，google找到了<a href="http://ju.outofmemory.cn/entry/356320" target="_blank" rel="noopener">文章</a>，根据内容操作发现了一些问题，最后也都解决了，在这里做一个记录。<br>首先</p>
 <ol>
 <li>Lua有一种预编译机制，能够把文本代码预编译成Bytecode/Opcode 提高解析、执行速度，降低内存占用</li>
 <li>原版Lua（Vanilla Lua）默认的Bytecode的字节结构和OpenWrt的并不相同，因为OpenWrt为了一系列需要，在截止我写此文时候， 在Lua5.1.5的版本主线上 ， 对原版的LUA引擎打了补丁 ， 导致其产生的字节码和原版的Lua产生的并不一样 ，（ <a href="http://lua-users.org/lists/lua-l/2012-06/msg00065.html" target="_blank" rel="noopener">http://lua-users.org/lists/lua-l/2012-06/msg00065.html</a> ），因此也不能使用原版的Lua引擎解释，会报类似 bad header in precompiled chunk 的错误</li>
@@ -318,7 +318,7 @@
 
 <p>做完这些以后，执行一下操作完成编译<br>make linux<br>export LD_LIBRARY_PATH=<code>pwd</code>/src/<br>cd ../luadec<br>make LUAVER=5.1</p>
 <ol start="5">
-<li>反编译luci-indexcache<br><img src="https://xiaokou.top/usr/uploads/md/1569652208101.png" alt=""></li>
+<li>反编译luci-indexcache<br><img src="/post-images1569652208101.png" alt=""></li>
 </ol>
 <script>
         document.querySelectorAll('.github-emoji')
@@ -411,7 +411,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

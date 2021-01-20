@@ -27,27 +27,27 @@
 <meta property="og:site_name" content="suanve - Blog">
 <meta property="og:description" content="下载了ovf的靶机，导入vmfusion。">
 <meta property="og:locale" content="zh">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558855195876.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558855116594.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558855182980.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558855240391.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558855482974.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558855683299.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558855768337.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558855795561.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558855841872.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558855921656.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558855945087.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558856027828.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558858070517.png">
-<meta property="og:image" content="https://xiaokou.top/usr/uploads/md/1558858060623.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558855195876.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558855116594.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558855182980.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558855240391.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558855482974.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558855683299.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558855768337.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558855795561.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558855841872.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558855921656.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558855945087.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558856027828.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558858070517.png">
+<meta property="og:image" content="http://yoursite.com/post-images1558858060623.png">
 <meta property="article:published_time" content="2019-05-25T23:18:00.000Z">
-<meta property="article:modified_time" content="2020-07-28T04:26:24.896Z">
+<meta property="article:modified_time" content="2020-09-08T02:07:04.132Z">
 <meta property="article:author" content="suanve">
 <meta property="article:tag" content="pwn">
 <meta property="article:tag" content="rop">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://xiaokou.top/usr/uploads/md/1558855195876.png">
+<meta name="twitter:image" content="http://yoursite.com/post-images1558855195876.png">
 
 <link rel="canonical" href="http://yoursite.com/2019/05/26/rop-ba-ji-shi-zhan-level0/">
 
@@ -281,7 +281,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-28 12:26:24" itemprop="dateModified" datetime="2020-07-28T12:26:24+08:00">2020-07-28</time>
+                <time title="Modified: 2020-09-08 10:07:04" itemprop="dateModified" datetime="2020-09-08T10:07:04+08:00">2020-09-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -306,9 +306,9 @@
       
         <p>下载了ovf的靶机，导入vmfusion。</p>
 <a id="more"></a>
-<p><img src="https://xiaokou.top/usr/uploads/md/1558855195876.png" alt=""></p>
-<p><img src="https://xiaokou.top/usr/uploads/md/1558855116594.png" alt=""><br>nmap扫了一下发现ip。<br>访问的时候发现了很尴尬的问题，google国内被q。<br><img src="https://xiaokou.top/usr/uploads/md/1558855182980.png" alt=""><br>等了好久他自己起来了。<br><img src="https://xiaokou.top/usr/uploads/md/1558855240391.png" alt=""><br>…好慢的说<br>看了一下，三道题。先从level0开始。<br><img src="https://xiaokou.top/usr/uploads/md/1558855482974.png" alt=""><br>使用ssh 登录账号level0 密码 warmup登录。<br><img src="https://xiaokou.top/usr/uploads/md/1558855683299.png" alt=""><br>确定了栈溢出，scp出来用peda分析。<br>这里提供一个小技巧，echo `pwd`/filename<br><img src="https://xiaokou.top/usr/uploads/md/1558855768337.png" alt=""><br>方便我们复制。<br><img src="https://xiaokou.top/usr/uploads/md/1558855795561.png" alt=""></p>
-<p>拿到level0后老规矩<br><img src="https://xiaokou.top/usr/uploads/md/1558855841872.png" alt=""><br>只有nx，丢进ida发现，好像这玩意是静态编译？<br><img src="https://xiaokou.top/usr/uploads/md/1558855921656.png" alt=""><br>随手用rop自动生成一下。<br><img src="https://xiaokou.top/usr/uploads/md/1558855945087.png" alt=""><br>既然可以就直接找偏移量吧，ida懒得分析了。<br><img src="https://xiaokou.top/usr/uploads/md/1558856027828.png" alt=""><br>44,直接打。<br><img src="https://xiaokou.top/usr/uploads/md/1558858070517.png" alt=""><br><img src="https://xiaokou.top/usr/uploads/md/1558858060623.png" alt=""></p>
+<p><img src="/post-images1558855195876.png" alt=""></p>
+<p><img src="/post-images1558855116594.png" alt=""><br>nmap扫了一下发现ip。<br>访问的时候发现了很尴尬的问题，google国内被q。<br><img src="/post-images1558855182980.png" alt=""><br>等了好久他自己起来了。<br><img src="/post-images1558855240391.png" alt=""><br>…好慢的说<br>看了一下，三道题。先从level0开始。<br><img src="/post-images1558855482974.png" alt=""><br>使用ssh 登录账号level0 密码 warmup登录。<br><img src="/post-images1558855683299.png" alt=""><br>确定了栈溢出，scp出来用peda分析。<br>这里提供一个小技巧，echo `pwd`/filename<br><img src="/post-images1558855768337.png" alt=""><br>方便我们复制。<br><img src="/post-images1558855795561.png" alt=""></p>
+<p>拿到level0后老规矩<br><img src="/post-images1558855841872.png" alt=""><br>只有nx，丢进ida发现，好像这玩意是静态编译？<br><img src="/post-images1558855921656.png" alt=""><br>随手用rop自动生成一下。<br><img src="/post-images1558855945087.png" alt=""><br>既然可以就直接找偏移量吧，ida懒得分析了。<br><img src="/post-images1558856027828.png" alt=""><br>44,直接打。<br><img src="/post-images1558858070517.png" alt=""><br><img src="/post-images1558858060623.png" alt=""></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -400,7 +400,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
