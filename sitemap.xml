@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://xiaokou.top/about/index.html</loc>
+    
+    <lastmod>2021-01-20T07:17:35.563Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://xiaokou.top/2020/10/30/cong-bytectf-xue-dao-de-scrapy-redis-fan-xu-lie-hua-lou-dong/</loc>
     
     <lastmod>2021-01-20T06:50:38.270Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>https://xiaokou.top/search/index.html</loc>
     
     <lastmod>2021-01-20T06:42:23.654Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://xiaokou.top/about/index.html</loc>
-    
-    <lastmod>2021-01-20T06:38:19.109Z</lastmod>
     
   </url>
   
