@@ -13,20 +13,20 @@
 <meta property="og:site_name" content="suanve - Blog">
 <meta property="og:description" content="next-terminal 代码审计项目地址： https:&#x2F;&#x2F;github.com&#x2F;dushixiang&#x2F;next-terminal 危害版本：&lt;&#x3D;0.3.0 0x0 环境搭建运行项目docker run -d   -p 8088:8088   --name next-terminal   --restart always dushixiang&#x2F;next-terminal:latest 0">
 <meta property="og:locale" content="zh">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/ed759ef5a1d6c7cbb59c87f21ed404e0">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/1bb11e4eb80ac4a0060c5ec859d1dab7">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/487f129108c7b95560ec74995ea417e7">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/159207df1e6df8cd5b3c6d0fc57ecf55">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/b4eddda35142e99069b3494eda4929f1">
+<meta property="og:image" content="https://files.funcloud.net/uploads/ed759ef5a1d6c7cbb59c87f21ed404e0">
+<meta property="og:image" content="https://files.funcloud.net/uploads/1bb11e4eb80ac4a0060c5ec859d1dab7">
+<meta property="og:image" content="https://files.funcloud.net/uploads/487f129108c7b95560ec74995ea417e7">
+<meta property="og:image" content="https://files.funcloud.net/uploads/159207df1e6df8cd5b3c6d0fc57ecf55">
+<meta property="og:image" content="https://files.funcloud.net/uploads/b4eddda35142e99069b3494eda4929f1">
 <meta property="article:published_time" content="2021-03-10T03:49:57.000Z">
-<meta property="article:modified_time" content="2021-03-10T03:58:53.783Z">
+<meta property="article:modified_time" content="2021-04-06T04:08:53.259Z">
 <meta property="article:author" content="suanve">
 <meta property="article:tag" content="go">
 <meta property="article:tag" content="代码审计">
 <meta property="article:tag" content="next-terminal">
 <meta property="article:tag" content="权限绕过">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://124.70.145.45:8081/uploads/ed759ef5a1d6c7cbb59c87f21ed404e0">
+<meta name="twitter:image" content="https://files.funcloud.net/uploads/ed759ef5a1d6c7cbb59c87f21ed404e0">
     
     
       
@@ -176,20 +176,20 @@
 <h3 id="0x0-环境搭建"><a href="#0x0-环境搭建" class="headerlink" title="0x0 环境搭建"></a>0x0 环境搭建</h3><p>运行项目<br><code>docker run -d   -p 8088:8088   --name next-terminal   --restart always dushixiang/next-terminal:latest</code></p>
 <h3 id="0x1-权限绕过"><a href="#0x1-权限绕过" class="headerlink" title="0x1 权限绕过"></a>0x1 权限绕过</h3><p>代码分析：</p>
 <p>pkg/api/routes.go:37行加载<code>Auth</code>认证</p>
-<p><img src="http://124.70.145.45:8081/uploads/ed759ef5a1d6c7cbb59c87f21ed404e0" alt="image-20210305125205180"></p>
+<p><img src="https://files.funcloud.net/uploads/ed759ef5a1d6c7cbb59c87f21ed404e0" alt="image-20210305125205180"></p>
 <p>跟进<code>Auth</code>函数</p>
 <p>pkg/api/middleware.go:28 </p>
-<p><img src="http://124.70.145.45:8081/uploads/1bb11e4eb80ac4a0060c5ec859d1dab7" alt=""></p>
+<p><img src="https://files.funcloud.net/uploads/1bb11e4eb80ac4a0060c5ec859d1dab7" alt=""></p>
 <figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Auth</span><span class="params">(next echo.HandlerFunc)</span> <span class="title">echo</span>.<span class="title">HandlerFunc</span></span> {</span><br><span class="line"></span><br><span class="line">	urls := []<span class="keyword">string</span>{<span class="string">"download"</span>, <span class="string">"recording"</span>, <span class="string">"login"</span>, <span class="string">"static"</span>, <span class="string">"favicon"</span>, <span class="string">"logo"</span>, <span class="string">"asciinema"</span>}</span><br><span class="line">	<span class="comment">// 这里是为了给不需要认证的路由提供便利</span></span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(c echo.Context)</span> <span class="title">error</span></span> {</span><br><span class="line">		<span class="comment">// 路由拦截 - 登录身份、资源权限判断等</span></span><br><span class="line">		<span class="keyword">for</span> i := <span class="keyword">range</span> urls {</span><br><span class="line">			<span class="keyword">if</span> c.Request().RequestURI == <span class="string">"/"</span> || strings.HasPrefix(c.Request().RequestURI, <span class="string">"/#"</span>) {</span><br><span class="line">				<span class="keyword">return</span> next(c)</span><br><span class="line">			}</span><br><span class="line">			<span class="keyword">if</span> strings.Contains(c.Request().RequestURI, urls[i]) { <span class="comment">//  路由中携带urls中的关键字</span></span><br><span class="line">        </span><br><span class="line">				<span class="keyword">return</span> next(c) <span class="comment">//?download=suanve 实现权限绕过</span></span><br><span class="line">        </span><br><span class="line">			}</span><br><span class="line">		}</span><br><span class="line"></span><br><span class="line">		token := GetToken(c)</span><br><span class="line">		cacheKey := strings.Join([]<span class="keyword">string</span>{Token, token}, <span class="string">":"</span>)</span><br><span class="line">		authorization, found := global.Cache.Get(cacheKey)</span><br><span class="line">		<span class="keyword">if</span> !found {</span><br><span class="line">			<span class="keyword">return</span> Fail(c, <span class="number">401</span>, <span class="string">"您的登录信息已失效，请重新登录后再试。"</span>)</span><br><span class="line">		}</span><br></pre></td></tr></tbody></table></figure>
 
 
 
 <h4 id="0x3-官网demo实测："><a href="#0x3-官网demo实测：" class="headerlink" title="0x3 官网demo实测："></a>0x3 官网demo实测：</h4><h5 id="获取用户列表"><a href="#获取用户列表" class="headerlink" title="获取用户列表"></a>获取用户列表</h5><p><a href="https://next-terminal.typesafe.cn/users/paging?download=suanve" target="_blank" rel="noopener">https://next-terminal.typesafe.cn/users/paging?download=suanve</a></p>
-<p><img src="http://124.70.145.45:8081/uploads/487f129108c7b95560ec74995ea417e7" alt="image-20210305124955423"></p>
+<p><img src="https://files.funcloud.net/uploads/487f129108c7b95560ec74995ea417e7" alt="image-20210305124955423"></p>
 <h5 id="获取资产"><a href="#获取资产" class="headerlink" title="获取资产"></a>获取资产</h5><p><a href="https://next-terminal.typesafe.cn/assets/paging?pageIndex=1&amp;pageSize=10&amp;protocol=&amp;download=suanve" target="_blank" rel="noopener">https://next-terminal.typesafe.cn/assets/paging?pageIndex=1&amp;pageSize=10&amp;protocol=&amp;download=suanve</a></p>
-<p><img src="http://124.70.145.45:8081/uploads/159207df1e6df8cd5b3c6d0fc57ecf55" alt="image-20210305130107255"></p>
+<p><img src="https://files.funcloud.net/uploads/159207df1e6df8cd5b3c6d0fc57ecf55" alt="image-20210305130107255"></p>
 <h5 id="获取凭据"><a href="#获取凭据" class="headerlink" title="获取凭据"></a>获取凭据</h5><p><a href="https://next-terminal.typesafe.cn/credentials/paging?pageIndex=1&amp;pageSize=10&amp;download=suanve" target="_blank" rel="noopener">https://next-terminal.typesafe.cn/credentials/paging?pageIndex=1&amp;pageSize=10&amp;download=suanve</a></p>
-<p><img src="http://124.70.145.45:8081/uploads/b4eddda35142e99069b3494eda4929f1" alt="image-20210305130436581"></p>
+<p><img src="https://files.funcloud.net/uploads/b4eddda35142e99069b3494eda4929f1" alt="image-20210305130436581"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {

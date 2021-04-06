@@ -13,19 +13,19 @@
 <meta property="og:site_name" content="suanve - Blog">
 <meta property="og:description" content="使用golang自建图床并与typora联动">
 <meta property="og:locale" content="zh">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/e60f5c99eef58340102fc948157cf4bb">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/63313ef2575ae3346294a978ce1d1447">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/d3c113f80a1706f796499f1aa46086c5">
-<meta property="og:image" content="http://124.70.145.45:8081/uploads/1cfe90ea899ada6a9cf3f383898a5c45">
+<meta property="og:image" content="https://files.funcloud.net/uploads/e60f5c99eef58340102fc948157cf4bb">
+<meta property="og:image" content="https://files.funcloud.net/uploads/63313ef2575ae3346294a978ce1d1447">
+<meta property="og:image" content="https://files.funcloud.net/uploads/d3c113f80a1706f796499f1aa46086c5">
+<meta property="og:image" content="https://files.funcloud.net/uploads/1cfe90ea899ada6a9cf3f383898a5c45">
 <meta property="article:published_time" content="2020-06-21T23:20:00.000Z">
-<meta property="article:modified_time" content="2021-03-10T03:58:53.790Z">
+<meta property="article:modified_time" content="2021-04-06T04:08:53.259Z">
 <meta property="article:author" content="suanve">
 <meta property="article:tag" content="golang">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="图床">
 <meta property="article:tag" content="docker-compose">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://124.70.145.45:8081/uploads/e60f5c99eef58340102fc948157cf4bb">
+<meta name="twitter:image" content="https://files.funcloud.net/uploads/e60f5c99eef58340102fc948157cf4bb">
     
     
       
@@ -181,7 +181,7 @@
 <li><p>python</p>
 </li>
 </ol>
-<p><img src="http://124.70.145.45:8081/uploads/e60f5c99eef58340102fc948157cf4bb" alt="image-20200622150530740"></p>
+<p><img src="https://files.funcloud.net/uploads/e60f5c99eef58340102fc948157cf4bb" alt="image-20200622150530740"></p>
 <p>###1、使用go编写后端</p>
 <p>使用go来写后端的话web就用gin了</p>
 <p>先写一下基础代码</p>
@@ -225,12 +225,12 @@
 <figure class="highlight yaml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">docker-compose.yml:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">doccenter:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8081</span><span class="string">:8081</span></span><br><span class="line">    <span class="attr">links:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">.:/app</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">HubHost=vpsip</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">mysql:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql:5.6</span></span><br><span class="line">    <span class="attr">expose:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"3306"</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_ROOT_PASSWORD=root</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_DATABASE=doccenter</span></span><br></pre></td></tr></tbody></table></figure>
 
 <p>使用docker-compose up -d –build启动平台</p>
-<p><img src="http://124.70.145.45:8081/uploads/63313ef2575ae3346294a978ce1d1447" alt="image-20200622151945876"></p>
-<h3 id="4、配置Typora"><a href="#4、配置Typora" class="headerlink" title="4、配置Typora"></a>4、配置Typora</h3><p><img src="http://124.70.145.45:8081/uploads/d3c113f80a1706f796499f1aa46086c5" alt="image-20200622151435431"></p>
+<p><img src="https://files.funcloud.net/uploads/63313ef2575ae3346294a978ce1d1447" alt="image-20200622151945876"></p>
+<h3 id="4、配置Typora"><a href="#4、配置Typora" class="headerlink" title="4、配置Typora"></a>4、配置Typora</h3><p><img src="https://files.funcloud.net/uploads/d3c113f80a1706f796499f1aa46086c5" alt="image-20200622151435431"></p>
 <p>自定义的命令设置为 </p>
 <p><code>/Users/su/go/src/doccenter/upload.py http://vpsip:8081/upload</code></p>
 <p>上传图片测试一下</p>
-<p><img src="http://124.70.145.45:8081/uploads/1cfe90ea899ada6a9cf3f383898a5c45" alt="image-20200622151602357"></p>
+<p><img src="https://files.funcloud.net/uploads/1cfe90ea899ada6a9cf3f383898a5c45" alt="image-20200622151602357"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
