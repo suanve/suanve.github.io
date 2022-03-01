@@ -6,7 +6,7 @@
   <link href="https://susec.me/atom.rss" rel="self"/>
   
   <link href="https://susec.me/"/>
-  <updated>2022-03-01T02:25:37.701Z</updated>
+  <updated>2022-03-01T02:30:36.586Z</updated>
   <id>https://susec.me/</id>
   
   <author>
@@ -21,10 +21,10 @@
     <link href="https://susec.me/2022/03/01/SUSCTF2022-web-writeup/"/>
     <id>https://susec.me/2022/03/01/SUSCTF2022-web-writeup/</id>
     <published>2022-03-01T02:02:28.000Z</published>
-    <updated>2022-03-01T02:25:37.701Z</updated>
+    <updated>2022-03-01T02:30:36.586Z</updated>
     
     
-    <summary type="html">&lt;p&gt;Auth: EDISEC&lt;br&gt;本场比赛可谓是”非预期的非预期次方”&lt;/p&gt;</summary>
+    <summary type="html">&lt;p&gt;Auth: EDISEC Team&lt;br&gt;本场比赛可谓是”非预期的非预期次方”&lt;/p&gt;</summary>
     
     
     
@@ -34,6 +34,8 @@
     <category term="ctf" scheme="https://susec.me/tags/ctf/"/>
     
     <category term="SUSCTF2022" scheme="https://susec.me/tags/SUSCTF2022/"/>
+    
+    <category term="EDISEC" scheme="https://susec.me/tags/EDISEC/"/>
     
   </entry>
   
