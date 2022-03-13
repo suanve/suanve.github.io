@@ -6,7 +6,7 @@
   <link href="https://susec.me/atom.rss" rel="self"/>
   
   <link href="https://susec.me/"/>
-  <updated>2022-03-01T02:30:36.586Z</updated>
+  <updated>2022-03-13T06:11:44.286Z</updated>
   <id>https://susec.me/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>phpok6.0-前台反序列化漏洞getshell</title>
+    <link href="https://susec.me/2022/03/13/phpok6-0-%E5%89%8D%E5%8F%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9Egetshell/"/>
+    <id>https://susec.me/2022/03/13/phpok6-0-%E5%89%8D%E5%8F%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9Egetshell/</id>
+    <published>2022-03-13T06:09:40.000Z</published>
+    <updated>2022-03-13T06:11:44.286Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;0x0-前言&quot;&gt;&lt;a href=&quot;#0x0-前言&quot; class=&quot;headerlink&quot; title=&quot;0x0 前言&quot;&gt;&lt;/a&gt;0x0 前言&lt;/h3&gt;&lt;p&gt;这两天来杭州打西湖论剑了，一个低版本的phpok一个高版本的phpok&lt;/p&gt;
+&lt;p&gt;低版本nday通了 高版本一直没审计出来&lt;/p&gt;
+&lt;p&gt;今天上午在安恒大厦听了讲解  &lt;/p&gt;
+&lt;p&gt;主办方说不公开了 但是有人做出来了 互联网上很快就会有题解了。&lt;/p&gt;
+&lt;p&gt;看到了poc大概的样子 回合肥路上调了一下&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>SUSCTF2022-web-writeup</title>
