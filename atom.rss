@@ -6,7 +6,7 @@
   <link href="https://susec.me/atom.rss" rel="self"/>
   
   <link href="https://susec.me/"/>
-  <updated>2022-03-21T02:34:16.100Z</updated>
+  <updated>2022-04-18T02:41:03.302Z</updated>
   <id>https://susec.me/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>*CTF2022-web-writeup</title>
+    <link href="https://susec.me/2022/04/18/2022-CTF-web-writeup/"/>
+    <id>https://susec.me/2022/04/18/2022-CTF-web-writeup/</id>
+    <published>2022-04-18T02:09:05.000Z</published>
+    <updated>2022-04-18T02:41:03.302Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;周末看了*ctf2022的题目 web依旧没活硬整 总体打个3🌟吧&lt;br&gt;这里写一个我觉得还蛮有意思的&lt;code&gt;oh-my-lotto&lt;/code&gt;题&lt;br&gt;其他题解请移步EDI安全公众号&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="ctf" scheme="https://susec.me/categories/ctf/"/>
+    
+    
+    <category term="ctf" scheme="https://susec.me/tags/ctf/"/>
+    
+    <category term="EDISEC" scheme="https://susec.me/tags/EDISEC/"/>
+    
+    <category term="STARCTF2022" scheme="https://susec.me/tags/STARCTF2022/"/>
+    
+  </entry>
   
   <entry>
     <title>dash分析-0x0环境搭建</title>
