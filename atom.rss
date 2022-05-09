@@ -6,7 +6,7 @@
   <link href="https://susec.me/atom.rss" rel="self"/>
   
   <link href="https://susec.me/"/>
-  <updated>2022-04-18T02:42:56.991Z</updated>
+  <updated>2022-05-09T03:58:00.575Z</updated>
   <id>https://susec.me/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PDO-dsn_from_uri-phar反序列化</title>
+    <link href="https://susec.me/2022/05/09/PDO-dsn_from_uri-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    <id>https://susec.me/2022/05/09/PDO-dsn_from_uri-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</id>
+    <published>2022-05-09T03:41:28.000Z</published>
+    <updated>2022-05-09T03:58:00.575Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;PDO-dsn-from-uri-phar反序列化&quot;&gt;&lt;a href=&quot;#PDO-dsn-from-uri-phar反序列化&quot; class=&quot;headerlink&quot; title=&quot;PDO-dsn_from_uri-phar反序列化&quot;&gt;&lt;/a&gt;PDO-dsn_from_uri-phar反序列化&lt;/h2&gt;&lt;h3 id=&quot;0x0-前言&quot;&gt;&lt;a href=&quot;#0x0-前言&quot; class=&quot;headerlink&quot; title=&quot;0x0 前言&quot;&gt;&lt;/a&gt;0x0 前言&lt;/h3&gt;&lt;p&gt;X月受邀给某春秋出题，因为已经在实习了没有这么多时间去研究点好玩的新技术，就随便把之前发现的phar利用点给出成了题。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="ctf" scheme="https://susec.me/categories/ctf/"/>
+    
+    
+    <category term="ctf" scheme="https://susec.me/tags/ctf/"/>
+    
+    <category term="phar反序列化" scheme="https://susec.me/tags/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    
+    <category term="PHP" scheme="https://susec.me/tags/PHP/"/>
+    
+  </entry>
   
   <entry>
     <title>*CTF2022-web-writeup</title>
